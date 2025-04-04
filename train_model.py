@@ -20,6 +20,8 @@ X = [
     "emergency services needed urgently",
     "bridge has collapsed",
     "smoke everywhere from fire",
+    "heavy flooding",
+    "flood filling water"
 
     # Non-crisis messages
     "party at my place",
@@ -42,7 +44,7 @@ X = [
 y = [
     # Crisis (1s)
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1
     # Not crisis (0s)
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0
