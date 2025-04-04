@@ -7,7 +7,6 @@ app = Flask(__name__)
 model = joblib.load("crisis_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
-
 @app.route('/verify', methods=['POST'])
 def verify_crisis():
     data = request.json
@@ -18,14 +17,24 @@ def verify_crisis():
     prob = max(model.predict_proba(X_test)[0])
 
     # Mock crisis type logic
-    crisis_type = "fire" if "fire" in message.lower() else "unknown"
+    crisis_keywords = {
+        "fire": ["fire", "smoke", "burning", "burnt", "burn"],
+        "earthquake": ["earthquake", "tremor", "shaking", "collapsed"],
+        "flood": ["flood", "water rising", "submerged", "excess water", "flodfill", "flash flood"],
+        "accident": ["crash", "injury", "accident", "vehicles"]
+    }
+
+    crisis_type = "unknown"
+    for key, keywords in crisis_keywords.items():
+        if any(word in message.lower() for word in keywords):
+            crisis_type = key
+            break
 
     return jsonify({
         "verified": bool(pred),
         "confidence": float(prob),
         "crisis_type": crisis_type
     })
-
 
 if __name__ == '__main__':
     app.run(debug=True)
