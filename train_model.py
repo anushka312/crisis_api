@@ -6,7 +6,7 @@ import joblib
 X = [
     # Fire-related crisis
     "fire in the building", "smoke coming out of the kitchen", "huge fire in the market",
-    "forest fire near my house", "smoke and flames visible in the distance", "massive blaze in the warehouse",
+    "forest fire near my house", "smoke and flames visible in the distance",
     "firefighters rushing to put out fire", "building engulfed in fire", "fire alarm went off suddenly",
     "smoke is spreading fast", "entire floor on fire", "wildfire out of control",
 
@@ -49,7 +49,7 @@ X = [
     # Non-crisis messages
     "party at my place", "free food giveaway", "just a sunny day", "watching a movie tonight",
     "my cat is sleeping", "what a beautiful sunset", "game night with friends", "had a great lunch",
-    "going to the gym now", "baking cookies today", "weekend getaway plans", "birthday celebration coming up",
+    "going to the gym now", "baking cookies sttoday", "weekend getaway plans", "birthday celebration coming up",
     "reading a new book", "walking in the park", "listening to music and relaxing", "shopping at the mall",
     "new cafe opened nearby", "picnic with my family", "my dog is playing fetch", "laughing with my friends",
     "ordering pizza tonight", "made some tea and relaxed", "cleaning the kitchen", "taking a nap now",
@@ -66,11 +66,13 @@ X = [
 
 y = [
     # Crisis (1)
-    *([1] * 96),
+    *([1] * 70),
 
     # Not Crisis (0)
-    *([0] * 96)
+    *([0] * 70)
 ]
+print("Length of X:", len(X))
+print("Length of y:", len(y))
 
 # Vectorization
 vec = TfidfVectorizer()
