@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
 import joblib
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"])
 
 # Load model and vectorizer
 model = joblib.load("crisis_model.pkl")
