@@ -14,7 +14,7 @@ model = joblib.load("crisis_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
 # Firebase setup
-cred = credentials.Certificate("firebase_credentials.json")  # Replace with your Firebase service account JSON
+cred = credentials.Certificate("/etc/secrets/firebase_credentials.json")  # Replace with your Firebase service account JSON
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
