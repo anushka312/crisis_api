@@ -52,7 +52,7 @@ def verify_crisis():
             crisis_type = key
             break
 
-    if pred:
+    if pred and lat and lng:
         report_data = {
             "description": message,
             "crisis_type": crisis_type,
