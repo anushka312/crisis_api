@@ -14,17 +14,20 @@ model = joblib.load("crisis_model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
 # Firebase setup
-cred = credentials.Certificate("/etc/secrets/firebase_credentials.json")  # Replace with your Firebase service account JSON
+cred = credentials.Certificate("/etc/secrets/resqnet-9aa32-firebase-adminsdk-fbsvc-db53918831.json")
+  # Replace with your Firebase service account JSON
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+
+@app.route('/')
+def home():
+    return "Crisis Detection API is running!"
 
 @app.route('/verify', methods=['POST'])
 def verify_crisis():
     data = request.json
     message = data.get("description", "")
     user_id = data.get("user_id", "anonymous")
-
-    # New: location info
     lat = data.get("lat")
     lng = data.get("lng")
     location_name = data.get("location", "")
@@ -67,7 +70,6 @@ def verify_crisis():
         "crisis_type": crisis_type
     })
 
-
 @app.route('/reports', methods=['GET'])
 def get_reports():
     """Fetches all crisis reports from Firestore"""
@@ -75,9 +77,18 @@ def get_reports():
     reports = [doc.to_dict() for doc in reports_ref.stream()]
     return jsonify(reports)
 
-@app.route('/')
-def home():
-    return "Crisis Detection API is running!"
+@app.route('/user_reports/<user_id>', methods=['GET'])
+def get_user_reports(user_id):
+    """Fetches all crisis reports by a specific user"""
+    reports_ref = db.collection("crisis_reports").where("user_id", "==", user_id)
+    reports = []
+
+    for doc in reports_ref.stream():
+        report = doc.to_dict()
+        report["id"] = doc.id  # for deletion reference
+        reports.append(report)
+
+    return jsonify(reports)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
